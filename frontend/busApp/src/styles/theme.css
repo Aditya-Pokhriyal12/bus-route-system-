@@ -1,0 +1,236 @@
+/* Bug Busters - Bus Route Handling System Dark Theme */
+
+:root {
+  /* Dark Theme Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --bg-card: #1e1e1e;
+  --bg-hover: #333333;
+  
+  /* Neon Accent Colors */
+  --neon-blue: #00d4ff;
+  --neon-green: #00ff88;
+  --neon-orange: #ff6b35;
+  --neon-purple: #b347d9;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #666666;
+  
+  /* Glow Effects */
+  --glow-blue: 0 0 20px rgba(0, 212, 255, 0.5);
+  --glow-green: 0 0 20px rgba(0, 255, 136, 0.5);
+  --glow-orange: 0 0 20px rgba(255, 107, 53, 0.5);
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  --gradient-secondary: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+  --gradient-accent: linear-gradient(135deg, var(--neon-orange), var(--neon-blue));
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-y: scroll !important;
+  scroll-behavior: smooth;
+  height: auto;
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Fix for container scrolling */
+.min-h-screen {
+  min-height: 100vh;
+  overflow-y: visible !important;
+  height: auto !important;
+}
+
+/* Ensure proper scrolling on all containers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-blue) var(--bg-secondary);
+}
+
+/* Futuristic Button Styles */
+.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--glow-blue);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--neon-green);
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: var(--neon-green);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-secondary:hover {
+  background: var(--neon-green);
+  color: var(--bg-primary);
+  box-shadow: var(--glow-green);
+  transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--neon-blue);
+  box-shadow: var(--glow-blue);
+  transform: translateY(-5px);
+}
+
+/* Input Styles */
+.input-field {
+  background: var(--bg-secondary);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--neon-blue);
+  box-shadow: var(--glow-blue);
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+/* Navigation Styles */
+.navbar {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 0;
+}
+
+/* Logo Styles */
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Map Styles */
+.map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Status Indicators */
+.status-online {
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+}
+
+.status-offline {
+  color: var(--neon-orange);
+  text-shadow: var(--glow-orange);
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: var(--glow-blue); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.glow {
+  animation: glow 2s infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .card {
+    padding: 16px;
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-green);
+}
