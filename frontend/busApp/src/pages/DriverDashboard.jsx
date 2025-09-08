@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
 import { BusTrackingMap } from '../Components/OpenStreetMap';
+import GPSSimulator from '../components/GPSSimulator';
+import SeatDiagram from '../components/SeatDiagram';
 import '../styles/theme.css';
 
 const DriverDashboard = () => {
@@ -33,6 +35,9 @@ const DriverDashboard = () => {
     { lat: 28.6129, lng: 77.2295, name: 'India Gate' },
     { lat: 28.5355, lng: 77.3910, name: 'Noida Sector 18' }
   ]);
+
+  const [showSeatManagement, setShowSeatManagement] = useState(false);
+  const [showGPSSimulator, setShowGPSSimulator] = useState(false);
 
   const handleStartRoute = () => {
     if (routeData.startLocation && routeData.endLocation) {
@@ -214,19 +219,46 @@ const DriverDashboard = () => {
           </div>
         </div>
 
-        {/* Safety Section Placeholder */}
-        <div className="mt-8">
+        {/* Driver Tools Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          {/* Seat Management */}
           <div className="card">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">Safety Features</h3>
-                <p className="text-gray-400">Emergency alerts and safety monitoring</p>
-              </div>
-              <div className="flex space-x-4">
-                <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-2">Seat Management</h3>
+              <p className="text-gray-400 mb-4">Monitor and update passenger seats</p>
+              <button 
+                onClick={() => setShowSeatManagement(true)}
+                className="btn-primary w-full"
+              >
+                Manage Seats
+              </button>
+            </div>
+          </div>
+
+          {/* GPS Simulator */}
+          <div className="card">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-2">GPS Simulator</h3>
+              <p className="text-gray-400 mb-4">Simulate bus movement for demo</p>
+              <button 
+                onClick={() => setShowGPSSimulator(true)}
+                className="btn-secondary w-full"
+              >
+                Start Simulator
+              </button>
+            </div>
+          </div>
+
+          {/* Safety Features */}
+          <div className="card">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-2">Safety Features</h3>
+              <p className="text-gray-400 mb-4">Emergency alerts and monitoring</p>
+              <div className="space-y-2">
+                <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors w-full">
                   SOS Alert
                 </button>
-                <button className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors">
+                <button className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors w-full">
                   Report Issue
                 </button>
               </div>
@@ -234,6 +266,74 @@ const DriverDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Seat Management Modal */}
+      {showSeatManagement && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Seat Management - {driverData.busNumber}</h3>
+              <button 
+                onClick={() => setShowSeatManagement(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-gray-300">Monitor passenger seat occupancy and manage bookings</p>
+              <p className="text-gray-300">Current Passengers: {liveData.passengerCount}/{liveData.maxCapacity}</p>
+            </div>
+            
+            <SeatDiagram 
+              busId={driverData.busNumber} 
+              onSeatSelect={(seatNumber) => {
+                // Driver can see seat selection but not book
+                console.log('Driver viewing seat:', seatNumber);
+              }}
+            />
+            
+            <div className="mt-6 bg-gray-700 p-4 rounded-lg">
+              <h4 className="text-white font-bold mb-2">Driver Controls:</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors">
+                  Refresh Seat Status
+                </button>
+                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors">
+                  Mark Passenger Boarded
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* GPS Simulator Modal */}
+      {showGPSSimulator && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">GPS Simulator - {driverData.busNumber}</h3>
+              <button 
+                onClick={() => setShowGPSSimulator(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <GPSSimulator 
+              onLocationUpdate={(location) => {
+                setLiveData(prev => ({
+                  ...prev,
+                  currentLocation: location
+                }));
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

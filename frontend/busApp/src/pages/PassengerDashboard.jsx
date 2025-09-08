@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
 import { BusTrackingMap } from '../Components/OpenStreetMap';
+import SeatDiagram from '../components/SeatDiagram';
 import '../styles/theme.css';
 
 const PassengerDashboard = () => {
@@ -42,6 +43,8 @@ const PassengerDashboard = () => {
 
   const [selectedBus, setSelectedBus] = useState(null);
   const [bookingModal, setBookingModal] = useState(false);
+  const [selectedSeat, setSelectedSeat] = useState(null);
+  const [showSeatSelection, setShowSeatSelection] = useState(false);
   const [currentLocation, setCurrentLocation] = useState({ lat: 28.6139, lng: 77.2090 });
   const [tickets, setTickets] = useState([
     {
@@ -54,9 +57,20 @@ const PassengerDashboard = () => {
     }
   ]);
 
-  const handleBookTicket = (bus) => {
+  const bookBus = (bus) => {
     setSelectedBus(bus);
-    setBookingModal(true);
+    setShowSeatSelection(true);
+  };
+
+  const handleSeatSelection = (seatNumber) => {
+    setSelectedSeat(seatNumber);
+  };
+
+  const proceedToBooking = () => {
+    if (selectedSeat) {
+      setShowSeatSelection(false);
+      setBookingModal(true);
+    }
   };
 
   const confirmBooking = () => {
@@ -289,8 +303,55 @@ const PassengerDashboard = () => {
         </div>
       </div>
 
-      {/* Booking Modal */}
-      {bookingModal && selectedBus && (
+      {/* Seat Selection Modal */}
+      {showSeatSelection && selectedBus && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Select Your Seat - {selectedBus.busNumber}</h3>
+              <button 
+                onClick={() => setShowSeatSelection(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-gray-300">Route: {selectedBus.route}</p>
+              <p className="text-gray-300">ETA: {selectedBus.eta} • Occupancy: {selectedBus.occupancy}%</p>
+            </div>
+            
+            <SeatDiagram 
+              busId={selectedBus.id} 
+              onSeatSelect={handleSeatSelection}
+            />
+            
+            <div className="flex space-x-3 mt-6">
+              <button 
+                onClick={() => setShowSeatSelection(false)}
+                className="btn-secondary flex-1"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={proceedToBooking}
+                disabled={!selectedSeat}
+                className={`flex-1 font-bold py-2 px-4 rounded-lg transition-colors duration-200 ${
+                  selectedSeat 
+                    ? 'bg-green-600 hover:bg-green-700 text-white' 
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                {selectedSeat ? `Book Seat #${selectedSeat}` : 'Select a Seat'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Booking Confirmation Modal */}
+      {bookingModal && selectedBus && selectedSeat && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
             <h3 className="text-xl font-bold text-white mb-4">Confirm Booking</h3>
@@ -305,6 +366,10 @@ const PassengerDashboard = () => {
                 <span className="text-white">{selectedBus.route}</span>
               </div>
               <div className="flex justify-between">
+                <span className="text-gray-400">Seat Number:</span>
+                <span className="text-cyan-400">#{selectedSeat}</span>
+              </div>
+              <div className="flex justify-between">
                 <span className="text-gray-400">ETA:</span>
                 <span className="text-green-400">{selectedBus.eta}</span>
               </div>
@@ -316,7 +381,10 @@ const PassengerDashboard = () => {
             
             <div className="flex space-x-3">
               <button 
-                onClick={() => setBookingModal(false)}
+                onClick={() => {
+                  setBookingModal(false);
+                  setSelectedSeat(null);
+                }}
                 className="btn-secondary flex-1"
               >
                 Cancel

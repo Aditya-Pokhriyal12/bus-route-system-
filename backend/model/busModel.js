@@ -41,6 +41,35 @@ const busSchema=new mongoose.Schema({
     photo:{
         secure_url:String,
         photo_id:String
+    },
+    seats:{
+        total:{
+            type:Number,
+            default:40
+        },
+        occupied:{
+            type:[Number],
+            default:[]
+        },
+        layout:{
+            type:String,
+            enum:["2+2", "3+2"],
+            default:"2+2"
+        }
+    },
+    currentLocation:{
+        lat:{
+            type:Number,
+            default:0
+        },
+        lng:{
+            type:Number,
+            default:0
+        },
+        lastUpdated:{
+            type:Date,
+            default:Date.now
+        }
     }
 },{timestamps:true})
 

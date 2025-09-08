@@ -267,3 +267,145 @@ export const searchFeedBack = async function (req, res) {
     avgRating: rating / busFeed.length,
   });
 };
+
+// Seat Management Functions
+export const bookSeat = async function (req, res) {
+  try {
+    const { busId, seatNumber } = req.body;
+
+    const bus = await BUS.findById(busId);
+    if (!bus) {
+      return res.status(404).json({
+        success: false,
+        message: "Bus not found"
+      });
+    }
+
+    // Check if seat is already occupied
+    if (bus.seats.occupied.includes(seatNumber)) {
+      return res.status(400).json({
+        success: false,
+        message: "Seat already occupied"
+      });
+    }
+
+    // Check if seat number is valid
+    if (seatNumber < 1 || seatNumber > bus.seats.total) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid seat number"
+      });
+    }
+
+    // Book the seat
+    bus.seats.occupied.push(seatNumber);
+    await bus.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Seat booked successfully",
+      seatNumber,
+      occupiedSeats: bus.seats.occupied
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+
+export const cancelSeat = async function (req, res) {
+  try {
+    const { busId, seatNumber } = req.body;
+
+    const bus = await BUS.findById(busId);
+    if (!bus) {
+      return res.status(404).json({
+        success: false,
+        message: "Bus not found"
+      });
+    }
+
+    // Remove seat from occupied list
+    bus.seats.occupied = bus.seats.occupied.filter(seat => seat !== seatNumber);
+    await bus.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Seat cancelled successfully",
+      seatNumber,
+      occupiedSeats: bus.seats.occupied
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+
+export const getSeatStatus = async function (req, res) {
+  try {
+    const { busId } = req.params;
+
+    const bus = await BUS.findById(busId);
+    if (!bus) {
+      return res.status(404).json({
+        success: false,
+        message: "Bus not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      seats: {
+        total: bus.seats.total,
+        occupied: bus.seats.occupied,
+        available: bus.seats.total - bus.seats.occupied.length,
+        layout: bus.seats.layout
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};
+
+export const updateBusLocation = async function (req, res) {
+  try {
+    const { busId, lat, lng } = req.body;
+
+    const bus = await BUS.findById(busId);
+    if (!bus) {
+      return res.status(404).json({
+        success: false,
+        message: "Bus not found"
+      });
+    }
+
+    bus.currentLocation = {
+      lat,
+      lng,
+      lastUpdated: new Date()
+    };
+    await bus.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Location updated successfully",
+      location: bus.currentLocation
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};

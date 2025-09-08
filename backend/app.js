@@ -55,6 +55,34 @@ io.on("connection", (socket) => {
         io.emit("sendCountPassenger",{countPassenger:payload.countPassenger})
     })
 
+    // New seat booking events
+    socket.on("seatBooked", (payload) => {
+        console.log("Seat booked:", payload);
+        io.emit("seatStatusUpdate", {
+            busId: payload.busId,
+            seatNumber: payload.seatNumber,
+            status: "occupied",
+            timestamp: payload.timestamp
+        });
+    });
+
+    socket.on("seatCancelled", (payload) => {
+        console.log("Seat cancelled:", payload);
+        io.emit("seatStatusUpdate", {
+            busId: payload.busId,
+            seatNumber: payload.seatNumber,
+            status: "available",
+            timestamp: payload.timestamp
+        });
+    });
+
+    // GPS simulation events
+    socket.on("busLocationUpdate", (payload) => {
+        console.log("Bus location updated:", payload);
+        cache.set(`location-${payload.busId}`, payload);
+        io.emit("busLocationUpdate", payload);
+    });
+
 });
 
 //setting up routes

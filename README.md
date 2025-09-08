@@ -28,14 +28,37 @@ The project features separate portals for drivers and passengers, with comprehen
 
 ## Technologies Used
 
-- **Tailwind CSS**: Used for designing and styling the user interface.
-- **React**: Developed the front-end interface and real-time map tracking.
-- **Express**: Built the backend server for handling API requests and managing data.
-- **MongoDB**: Used for storing and managing bus route data.
-- **Socket.io**: Enabled real-time communication between the server and clients.
-- **OpenStreetMap**: Integrated for displaying and interacting with maps (free alternative to Google Maps).
-- **Vite**: Modern build tool for fast development and optimized production builds.
-- **React Router**: Client-side routing for seamless navigation between pages.
+### Frontend
+- **React 18**: Modern JavaScript library for building user interfaces
+- **Vite**: Fast build tool and development server
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **React Router DOM**: Client-side routing for single-page application navigation
+- **Socket.io Client**: Real-time bidirectional event-based communication
+- **Axios**: HTTP client for API requests
+- **React Leaflet**: React components for Leaflet maps
+- **Leaflet**: Open-source JavaScript library for interactive maps
+- **@react-google-maps/api**: Google Maps integration (optional)
+- **React Toastify**: Toast notifications for user feedback
+
+### Backend
+- **Node.js**: JavaScript runtime environment
+- **Express.js**: Web application framework for Node.js
+- **Socket.io**: Real-time communication between server and clients
+- **MongoDB**: NoSQL database for data storage
+- **Mongoose**: MongoDB object modeling for Node.js
+- **Nodemon**: Development tool for automatic server restarts
+- **Bcrypt**: Password hashing library
+- **CORS**: Cross-Origin Resource Sharing middleware
+- **Multer**: Middleware for handling multipart/form-data
+- **Cloudinary**: Cloud-based image and video management (optional)
+- **Cookie Parser**: Parse HTTP request cookies
+- **Express File Upload**: Simple express middleware for uploading files
+
+### Development Tools
+- **ESLint**: JavaScript linting utility
+- **PostCSS**: CSS post-processor
+- **Autoprefixer**: CSS vendor prefixing
+- **dotenv**: Environment variable management
 
 ## Getting Started
 
@@ -44,13 +67,14 @@ To get a copy of this project up and running on your local machine for developme
 1. Clone the repository to your local machine:
 
    ```shell
-   git clone https://github.com/BugBusters/Bus-Route-Handling-System.git
+   git clone https://github.com/Dhruv-Bhandarii/bus-route-system-.git
+   cd Real-Time-Bus-Tracking-System
    ```
 
 2. Install backend dependencies:
 
    ```shell
-   cd Bus-Route-Handling-System/backend
+   cd backend
    npm install
    ```
 
@@ -61,48 +85,80 @@ To get a copy of this project up and running on your local machine for developme
    npm install
    ```
 
-4. Set up environment variables in backend/.env:
+4. Set up environment variables:
 
+   **Backend (.env)**:
    ```shell
-   PORT=3000
-   MONGODB_URL=your_mongodb_connection_string
+   PORT=3001
+   MONGODB_URL=mongodb://localhost:27017/bus-tracking-system
+   # Or use MongoDB Atlas:
+   # MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/bus-tracking-system
    ```
 
-5. Start the backend server:
-
+   **Frontend (.env)** (Optional for Google Maps):
    ```shell
+   VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+   ```
+
+5. Start the application:
+
+   **Option 1: Use the start script**
+   ```shell
+   ./start.sh
+   ```
+
+   **Option 2: Manual start**
+   ```shell
+   # Terminal 1 - Backend
    cd backend
    npm start
-   ```
 
-6. Start the frontend development server:
-
-   ```shell
+   # Terminal 2 - Frontend
    cd frontend/busApp
    npm run dev
    ```
 
-7. Access the application by navigating to `http://localhost:5173/#/` in your web browser.
+6. Access the application:
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:3001`
 
 ## Project Structure
 
 The project structure is organized as follows:
 ```
-Bus-Route-Handling-System/
+Real-Time-Bus-Tracking-System/
 ├── backend/                 # Express.js backend server
 │   ├── controllers/         # API endpoint controllers
+│   │   └── busController.js # Bus-related API logic
 │   ├── Database/           # MongoDB connection setup
+│   │   └── db.js           # Database configuration
 │   ├── middlewares/        # Custom middleware functions
+│   │   └── multer.middleware.js # File upload middleware
 │   ├── Cache/              # Caching logic
-│   └── server.js           # Main server file
+│   │   └── cache.js        # Cache implementation
+│   ├── models/             # Mongoose data models
+│   ├── routes/             # API route definitions
+│   ├── server.js           # Main server file
+│   ├── package.json        # Backend dependencies
+│   └── .env.example        # Environment variables template
 ├── frontend/busApp/        # React frontend application
 │   ├── src/
 │   │   ├── pages/          # Main application pages
 │   │   ├── components/     # Reusable React components
-│   │   ├── styles/         # CSS and theme files
 │   │   ├── Context/        # React context providers
-│   │   └── Constants/      # Configuration constants
-│   └── vite.config.js      # Vite build configuration
+│   │   │   └── SocketContext.jsx # Socket.io context
+│   │   ├── Constants/      # Configuration constants
+│   │   │   └── keys.js     # API keys and constants
+│   │   ├── App.jsx         # Main application component
+│   │   └── main.jsx        # Application entry point
+│   ├── public/             # Static assets
+│   ├── vite.config.js      # Vite build configuration
+│   ├── tailwind.config.js  # Tailwind CSS configuration
+│   ├── package.json        # Frontend dependencies
+│   └── .env.example        # Environment variables template
+├── start.sh                # Script to start both servers
+├── stop.sh                 # Script to stop both servers
+├── SETUP_REQUIREMENTS.md   # Detailed setup instructions
 └── README.md               # Project documentation
 ```
 
@@ -128,7 +184,13 @@ Bus-Route-Handling-System/
 
 ## Deployment
 
-This project is deployed on Azure, providing a scalable and reliable platform for real-time bus tracking. 
+This project can be deployed on various platforms:
+
+- **Frontend**: Netlify, Vercel, or any static hosting service
+- **Backend**: Heroku, Railway, DigitalOcean, or any Node.js hosting platform
+- **Database**: MongoDB Atlas (cloud) or self-hosted MongoDB
+
+For detailed deployment instructions, refer to the `SETUP_REQUIREMENTS.md` file. 
 
 ## Chatbot
 
@@ -137,12 +199,27 @@ The chatbot integrated into this project uses NLP and ML to provide intelligent 
 ## Development
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB database
-- Modern web browser
+- **Node.js** (v16 or higher)
+- **npm** (comes with Node.js)
+- **MongoDB** (local installation or MongoDB Atlas account)
+- **Modern web browser** (Chrome, Firefox, Safari, Edge)
+- **Git** (for cloning the repository)
 
 ### Testing
 The application includes test authentication that accepts any values for development purposes. Simply fill all required fields with any text/numbers to access the dashboards.
+
+### API Endpoints
+- `GET /api/buses` - Get all buses
+- `POST /api/buses` - Create a new bus
+- `PUT /api/buses/:id` - Update bus information
+- `DELETE /api/buses/:id` - Delete a bus
+- Socket.io events for real-time tracking
+
+### Environment Configuration
+- The project uses OpenStreetMap by default (no API key required)
+- Google Maps integration is optional and requires an API key
+- MongoDB connection can be local or cloud-based (Atlas)
+- All sensitive data is stored in environment variables
 
 ---
 

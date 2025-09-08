@@ -1,7 +1,7 @@
 import express from "express"
 
 import { upload } from "../middlewares/multer.middleware.js"
-import {register,login,activeBus,updateBusDetails,activeBusDetails, busRoutes,getFeedBack,allFeedBack,searchFeedBack} from "../controllers/busController.js"
+import {register,login,activeBus,updateBusDetails,activeBusDetails, busRoutes,getFeedBack,allFeedBack,searchFeedBack,bookSeat,cancelSeat,getSeatStatus,updateBusLocation} from "../controllers/busController.js"
 
 
 const router=express.Router()
@@ -35,5 +35,12 @@ router.route("/getFeedbacks").get(allFeedBack)
 //route for getting feedback of a particular bus
 router.route("/specificFeedback").post(searchFeedBack)
 
+// New seat management routes
+router.route("/bookSeat").post(bookSeat)
+router.route("/cancelSeat").post(cancelSeat)
+router.route("/seatStatus/:busId").get(getSeatStatus)
+
+// GPS location update route
+router.route("/updateLocation").post(updateBusLocation)
 
 export default router

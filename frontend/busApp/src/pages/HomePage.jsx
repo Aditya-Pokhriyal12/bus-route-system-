@@ -58,74 +58,74 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Login Options */}
+        {/* Action Cards */}
         <div className={`grid md:grid-cols-2 gap-8 w-full max-w-4xl transition-all duration-1000 delay-300 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          
-          {/* Driver Login Card */}
-          <div className="card group cursor-pointer transform transition-all duration-300 hover:scale-105">
+          {/* Driver Card */}
+          <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-orange-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/10">
             <div className="text-center">
               {/* Driver Icon */}
-              <div className="w-24 h-24 mx-auto mb-6 relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                <svg className="w-full h-full text-blue-400 relative z-10" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 6.5V7.5C15 8.1 14.6 8.5 14 8.5S13 8.1 13 7.5V6.5L9 7V9C9 10.1 9.9 11 11 11V12.5C9.8 12.8 9 13.8 9 15V16H7V18H9V22H11V18H13V22H15V18H17V16H15V15C15 13.8 14.2 12.8 13 12.5V11C14.1 11 15 10.1 15 9Z"/>
+              <div className="w-20 h-20 mx-auto mb-4 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 rounded-full opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                <svg className="w-full h-full text-orange-400 relative z-10" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7C14.4 7 14 7.4 14 8V16C14 16.6 14.4 17 15 17H16V21C16 21.6 16.4 22 17 22H19C19.6 22 20 21.6 20 21V17H21C21.6 17 22 16.6 22 16V10C22 9.4 21.6 9 21 9ZM8 7.5C8 6.7 8.7 6 9.5 6S11 6.7 11 7.5 10.3 9 9.5 9 8 8.3 8 7.5ZM5.75 8.5L7.59 15.09C7.68 15.42 7.95 15.66 8.28 15.66H9.5L8.33 21.74C8.24 22.24 8.29 22.76 8.46 23.24C8.64 23.71 8.94 24.12 9.32 24.42L9.4 24.5C9.68 24.74 10 24.87 10.34 24.87C10.89 24.87 11.4 24.59 11.66 24.15L13.25 21.74"/>
                 </svg>
               </div>
               
-              <h3 className="text-2xl font-bold text-white mb-4">Driver Portal</h3>
-              <p className="text-gray-400 mb-6">
-                Manage routes, track passengers, and handle daily operations with our advanced driver dashboard.
+              <h3 className="text-xl font-bold text-white mb-3">Driver Portal</h3>
+              <p className="text-gray-400 mb-4 text-sm">
+                Manage routes, seat occupancy, GPS simulation, and real-time updates.
               </p>
               
               <a href="#/driver/auth">
-                <button className="btn-primary w-full group-hover:shadow-lg group-hover:shadow-blue-500/25">
+                <button className="btn-primary w-full group-hover:shadow-lg group-hover:shadow-orange-500/25 text-sm py-2">
                   <span className="flex items-center justify-center">
                     Login as Driver
-                    <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                 </button>
               </a>
               
-              <div className="mt-4 text-xs text-gray-500">
-                • Route Management • Real-time Tracking • Passenger Alerts
+              <div className="mt-3 text-xs text-gray-500">
+                • Seat Management • GPS Simulation • Route Tracking
               </div>
             </div>
           </div>
 
-          {/* Passenger Login Card */}
-          <div className="card group cursor-pointer transform transition-all duration-300 hover:scale-105">
+          {/* Passenger Card */}
+          <div className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-green-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/10">
             <div className="text-center">
               {/* Passenger Icon */}
-              <div className="w-24 h-24 mx-auto mb-6 relative">
+              <div className="w-20 h-20 mx-auto mb-4 relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-blue-600 rounded-full opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 <svg className="w-full h-full text-green-400 relative z-10" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
                 </svg>
               </div>
               
-              <h3 className="text-2xl font-bold text-white mb-4">Passenger Portal</h3>
-              <p className="text-gray-400 mb-6">
-                Find buses, book tickets, and track your journey in real-time with our smart passenger system.
+              <h3 className="text-xl font-bold text-white mb-3">Passenger Portal</h3>
+              <p className="text-gray-400 mb-4 text-sm">
+                Find buses, select seats, book tickets, and track your journey in real-time.
               </p>
               
               <a href="#/passenger/auth">
-                <button className="btn-secondary w-full group-hover:shadow-lg group-hover:shadow-green-500/25">
+                <button className="btn-secondary w-full group-hover:shadow-lg group-hover:shadow-green-500/25 text-sm py-2">
                   <span className="flex items-center justify-center">
                     Login as Passenger
-                    <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </span>
                 </button>
               </a>
               
-              <div className="mt-4 text-xs text-gray-500">
-                • Live Bus Tracking • Ticket Booking • Route Planning
+              <div className="mt-3 text-xs text-gray-500">
+                • Seat Selection • Live Bus Tracking • Ticket Booking
               </div>
             </div>
           </div>
+
         </div>
 
         {/* Features Preview */}
