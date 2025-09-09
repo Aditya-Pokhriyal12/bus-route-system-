@@ -14,30 +14,30 @@ const PassengerDashboard = () => {
   const [nearbyBuses, setNearbyBuses] = useState([
     {
       id: 1,
-      busNumber: 'DL-1PC-1234',
-      route: 'Connaught Place → Noida',
+      busNumber: 'UK-07-A-1234',
+      route: 'Clock Tower → ISBT Dehradun',
       eta: '5 min',
       distance: '200m',
       occupancy: 75,
-      location: { lat: 28.6139, lng: 77.2090 }
+      location: { lat: 30.3165, lng: 78.0322 }
     },
     {
       id: 2,
-      busNumber: 'DL-2AB-5678',
-      route: 'India Gate → Gurgaon',
+      busNumber: 'UK-07-B-5678',
+      route: 'Rajpur Road → Mussoorie',
       eta: '8 min',
       distance: '450m',
       occupancy: 60,
-      location: { lat: 28.6129, lng: 77.2295 }
+      location: { lat: 30.3255, lng: 78.0422 }
     },
     {
       id: 3,
-      busNumber: 'DL-3XY-9012',
-      route: 'Red Fort → Dwarka',
+      busNumber: 'UK-07-C-9012',
+      route: 'Saharanpur Road → Rishikesh',
       eta: '12 min',
       distance: '800m',
       occupancy: 40,
-      location: { lat: 28.6562, lng: 77.2410 }
+      location: { lat: 30.3065, lng: 78.0222 }
     }
   ]);
 
@@ -45,12 +45,14 @@ const PassengerDashboard = () => {
   const [bookingModal, setBookingModal] = useState(false);
   const [selectedSeat, setSelectedSeat] = useState(null);
   const [showSeatSelection, setShowSeatSelection] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState({ lat: 28.6139, lng: 77.2090 });
+  const [currentLocation, setCurrentLocation] = useState({ lat: 30.3165, lng: 78.0322 });
+  const [locationError, setLocationError] = useState(null);
+  const [isLocating, setIsLocating] = useState(false);
   const [tickets, setTickets] = useState([
     {
       id: 'TKT001',
-      busNumber: 'DL-1PC-1234',
-      route: 'CP → Noida',
+      busNumber: 'UK-07-A-1234',
+      route: 'Clock Tower → ISBT',
       date: '2024-01-15',
       status: 'active',
       fare: 25
@@ -91,6 +93,78 @@ const PassengerDashboard = () => {
     if (occupancy < 50) return 'text-green-400';
     if (occupancy < 80) return 'text-yellow-400';
     return 'text-red-400';
+  };
+
+  const handleBookTicket = (bus) => {
+    setSelectedBus(bus);
+    setShowSeatSelection(true);
+  };
+
+  const getCurrentLocation = () => {
+    setIsLocating(true);
+    setLocationError(null);
+    
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by this browser.');
+      setIsLocating(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setCurrentLocation({ lat: latitude, lng: longitude });
+        setIsLocating(false);
+        
+        // Update nearby buses based on new location (simulate)
+        updateNearbyBuses(latitude, longitude);
+      },
+      (error) => {
+        let errorMessage = 'Unable to retrieve your location.';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Location access denied by user.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'Location request timed out.';
+            break;
+        }
+        setLocationError(errorMessage);
+        setIsLocating(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
+  };
+
+  const updateNearbyBuses = (lat, lng) => {
+    // Simulate updating bus distances based on user location
+    const updatedBuses = nearbyBuses.map(bus => {
+      const distance = calculateDistance(lat, lng, bus.location.lat, bus.location.lng);
+      return {
+        ...bus,
+        distance: `${Math.round(distance * 1000)}m`
+      };
+    });
+    setNearbyBuses(updatedBuses);
+  };
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
   };
 
   return (
@@ -259,16 +333,39 @@ const PassengerDashboard = () => {
               
               {/* Map Controls */}
               <div className="mt-4 flex justify-between items-center">
-                <button className="btn-secondary text-sm">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  </svg>
-                  My Location
+                <button 
+                  onClick={getCurrentLocation}
+                  disabled={isLocating}
+                  className={`btn-secondary text-sm flex items-center ${isLocating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {isLocating ? (
+                    <>
+                      <svg className="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Locating...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      </svg>
+                      My Location
+                    </>
+                  )}
                 </button>
                 <button className="btn-secondary text-sm">
                   Change View
                 </button>
               </div>
+              
+              {/* Location Error Display */}
+              {locationError && (
+                <div className="mt-2 p-3 bg-red-900 bg-opacity-50 border border-red-500 rounded-lg">
+                  <p className="text-red-300 text-sm">{locationError}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

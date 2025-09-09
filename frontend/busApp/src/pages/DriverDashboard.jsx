@@ -8,8 +8,8 @@ import '../styles/theme.css';
 const DriverDashboard = () => {
   const [driverData, setDriverData] = useState({
     name: 'John Doe',
-    busNumber: 'DL-1PC-1234',
-    licenseNumber: 'DL-1420110012345',
+    busNumber: 'UK-07-A-1234',
+    licenseNumber: 'UK-0520110012345',
     status: 'active'
   });
 
@@ -23,17 +23,17 @@ const DriverDashboard = () => {
   const [liveData, setLiveData] = useState({
     passengerCount: 12,
     maxCapacity: 50,
-    currentLocation: { lat: 28.6139, lng: 77.2090 },
+    currentLocation: { lat: 30.3165, lng: 78.0322 },
     bookingAlerts: [
-      { id: 1, passenger: 'Alice Smith', pickup: 'Connaught Place', time: '2 min ago' },
-      { id: 2, passenger: 'Bob Johnson', pickup: 'India Gate', time: '5 min ago' }
+      { id: 1, passenger: 'Priya Sharma', pickup: 'Clock Tower', time: '2 min ago' },
+      { id: 2, passenger: 'Rahul Gupta', pickup: 'Rajpur Road', time: '5 min ago' }
     ]
   });
 
   const [routeStops, setRouteStops] = useState([
-    { lat: 28.6139, lng: 77.2090, name: 'Connaught Place' },
-    { lat: 28.6129, lng: 77.2295, name: 'India Gate' },
-    { lat: 28.5355, lng: 77.3910, name: 'Noida Sector 18' }
+    { lat: 30.3165, lng: 78.0322, name: 'Clock Tower' },
+    { lat: 30.3255, lng: 78.0422, name: 'Rajpur Road' },
+    { lat: 30.0668, lng: 79.0193, name: 'ISBT Dehradun' }
   ]);
 
   const [showSeatManagement, setShowSeatManagement] = useState(false);

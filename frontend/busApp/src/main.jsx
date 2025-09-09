@@ -9,6 +9,7 @@ import DriverAuth from "./pages/DriverAuth.jsx";
 import PassengerAuth from "./pages/PassengerAuth.jsx";
 import DriverDashboard from "./pages/DriverDashboard.jsx";
 import PassengerDashboard from "./pages/PassengerDashboard.jsx";
+import About from "./pages/About.jsx";
 const router=createHashRouter([
   {
     path:"/",
@@ -33,7 +34,7 @@ const router=createHashRouter([
       {
         path:"passenger/dashboard",
         element:<PassengerDashboard/>
-      },
+      }
     ]
   }
 ])

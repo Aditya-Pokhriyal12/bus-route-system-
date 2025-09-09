@@ -50,8 +50,8 @@ const HomePage = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Experience the future of public transportation with real-time tracking, 
-            smart routing, and seamless booking - all in one futuristic platform.
+            Experience seamless public transportation in Dehradun with real-time tracking, 
+            smart routing, and instant booking - connecting the entire Doon Valley.
           </p>
           <div className="text-sm text-gray-500 mb-12">
             Powered by <span className="text-blue-400 font-semibold">Bug Busters</span>
@@ -73,7 +73,7 @@ const HomePage = () => {
               
               <h3 className="text-xl font-bold text-white mb-3">Driver Portal</h3>
               <p className="text-gray-400 mb-4 text-sm">
-                Manage routes, seat occupancy, GPS simulation, and real-time updates.
+                Manage Dehradun city routes, track passengers, and provide real-time updates across the valley.
               </p>
               
               <a href="#/driver/auth">
@@ -106,7 +106,7 @@ const HomePage = () => {
               
               <h3 className="text-xl font-bold text-white mb-3">Passenger Portal</h3>
               <p className="text-gray-400 mb-4 text-sm">
-                Find buses, select seats, book tickets, and track your journey in real-time.
+                Explore Dehradun with ease - find buses to Mussoorie, ISBT, Clock Tower and beyond.
               </p>
               
               <a href="#/passenger/auth">

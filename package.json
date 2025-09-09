@@ -1,0 +1,14 @@
+{
+  "name": "bus-route-system",
+  "version": "1.0.0",
+  "description": "Bug Busters Bus Route Handling System",
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend/busApp && npm run dev",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend/busApp && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

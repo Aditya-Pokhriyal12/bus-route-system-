@@ -26,7 +26,7 @@ function MapUpdater({ center, zoom }) {
 
 // Main OpenStreetMap component
 export function OpenStreetMap({ 
-  center = { lat: 28.6139, lng: 77.2090 }, // Default to Delhi
+  center = { lat: 30.3165, lng: 78.0322 }, // Default to Dehradun Clock Tower
   zoom = 10,
   markers = [],
   className = "map-container",
@@ -86,7 +86,7 @@ export function BusTrackingMap({
     }
   });
   
-  const center = busLocation || (route.length > 0 ? route[0] : { lat: 28.6139, lng: 77.2090 });
+  const center = busLocation || (route.length > 0 ? route[0] : { lat: 30.3165, lng: 78.0322 });
   
   return (
     <OpenStreetMap
